@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  text-align: center;
+  overflow: hidden;
+}
+
+.container {
+  margin-top: 60px;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+#countdown {
+  font-size: 50px;
+}
+
+button {
+  padding: 15px 25px;
+  font-size: 18px;
+  margin: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 120px;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+}
+
+#noBtn {
+  background: #333;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
+
+img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin: 5px;
+  object-fit: cover;
+}
+
+.heart {
+  position: fixed;
+  color: red;
+  font-size: 20px;
+  animation: float 3s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-250px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Pictures -->
+  <div>
+    <img src="me.gif">
+    <img src="her.gif">
+  </div>
+
+  <!-- Countdown -->
+  <h1 id="countdown">3</h1>
+
+  <!-- Question -->
+  <div id="question" class="hidden">
+    <h1>Will you marry me? 💍</h1>
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No 💔</button>
+  </div>
+
+</div>
+
+<audio id="music" loop>
+  <source src="your-music.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const countdownEl = document.getElementById("countdown");
+const question = document.getElementById("question");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const music = document.getElementById("music");
+
+let count = 3;
+let noSize = 18;
+
+// music plays after first tap (required for mobile)
+document.body.addEventListener("click", () => {
+  music.play();
+}, { once: true });
+
+// countdown
+const interval = setInterval(() => {
+  countdownEl.innerText = count;
+  count--;
+
+  if (count < 0) {
+    clearInterval(interval);
+    countdownEl.style.display = "none";
+    question.classList.remove("hidden");
+  }
+}, 1000);
+
+// NO button shrinks
+noBtn.addEventListener("click", () => {
+  noSize -= 3;
+  noBtn.style.fontSize = noSize + "px";
+
+  if (noSize <= 8) {
+    noBtn.style.display = "none";
+  }
+});
+
+// YES button
+yesBtn.addEventListener("click", () => {
+  const container = document.querySelector(".container");
+
+  container.innerHTML = "<h1 style='margin-top:120px'>ILOVEYOU IYA💖</h1>";
+
+  // keep music playing
+  music.play();
+
+  for (let i = 0; i < 40; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.classList.add("heart");
+
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = window.innerHeight + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 3000);
+  }
+});
+</script>
+
+</body>
+</html>
